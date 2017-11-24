@@ -35,7 +35,6 @@ class SignService extends CI_Model {
 
     public function signInServ() {
         $arrHeader = $this->_getHeader();
-        $arrOptions = $this->_getOptions();
         $arrParams = array(
             'sign_in_place_acq' => '0',
             'timeBucketCode' => '6159004',
@@ -60,7 +59,6 @@ class SignService extends CI_Model {
 
     public function signOutServ() {
         $arrHeader = $this->_getHeader();
-        $arrOptions = $this->_getOptions();
         $arrParams = array(
             'sign_in_place_acq' => NULL,
             'timeBucketCode' => '6159004',
@@ -118,25 +116,25 @@ class SignService extends CI_Model {
                 // 可以签到
                 if (FALSE == $this->_getFlag() && $this->_getProbability()) {
                     $this->mylog->debug('走随机签到', 'sign');
-                    //$this->signInServ();
+                    $this->signInServ();
                     $this->_createFlag();
                 }
             } else if ($this->_signOutStartTime < $intTime && $this->_signOutEndTime > $intTime) {
                 // 可以签退
                 if ($this->_getFlag() && $this->_getProbability()) {
                     $this->mylog->debug('走随机签退', 'sign');
-                    //$this->signOutServ();
+                    $this->signOutServ();
                     $this->_delFlag();
                 }
             } else if ($intTime == $this->_signInEndTime && FALSE == $this->_getFlag()) {
                 // 最后一次签到机会
                 $this->mylog->debug('走最后一次签到', 'sign');
-                //$this->signInServ();
+                $this->signInServ();
                 $this->_createFlag();
             } else if ($intTime == $this->_signOutEndTime && $this->_getFlag()) {
                 // 最后一次签退机会
                 $this->mylog->debug('走最后一次签退', 'sign');
-                //$this->signOutServ();
+                $this->signOutServ();
                 $this->_delFlag();
             }
         }
