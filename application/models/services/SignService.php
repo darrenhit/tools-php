@@ -102,7 +102,7 @@ class SignService extends CI_Model {
     }
 
     private function _delFlag() {
-        if ($this->cached->memcached->get(self::SIGN_FLAG)) {
+        if ($this->cache->memcached->get(self::SIGN_FLAG)) {
             return $this->cache->memcached->delete(self::SIGN_FLAG);
         } else {
             return FALSE;
